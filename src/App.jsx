@@ -52,13 +52,13 @@ const App = () => {
   return (
     <>
       <div className='grid grid-cols-5 h-screen text-center'>
-        <div className='col-span-1 bg-amber-500'>
+        <div className='col-span-1 bg-zinc-800'>
           <h1 className='text-white text-3xl pt-2'>ReactAI Chat</h1>
         </div>
         <div className='col-span-4 p-10'>
-          <div className='container h-120'>
+          <div className='container h-110'>
             <h1 className='text-white text-3xl'>ReactAI Chat</h1>
-            <div className='bg-slate-200 h-96 mt-5 p-5 rounded-md overflow-y-scroll'>
+            <div className='text-zinc-300 h-85 rounded-md overflow-scroll'>
               <ul>
                 {
                   result.map((item, index) => (
@@ -84,9 +84,10 @@ const App = () => {
               </ul>
             </div>
           </div>
-          <div className='bg-orange-600 w-1/2 p-1 pr-5 text-white'>
-            <input type="text" value={question} onChange={(e) => setQuestiony(e.target.value)} placeholder='Type your message here...' className='bg-transparent w-full outline-none border-none' />
-            <button onClick={askQuestion} className='bg-amber-500 px-3 py-1 rounded-md hover:bg-amber-600'>Send</button>
+          <div className='bg-zinc-800 w-1/2 p-2 pr-5 text-white m-auto rounded-4xl border border-zinc-600 flex h-16'>
+            <input type="text" className="w-full h-full p-3 outline-none"
+              value={question} onChange={(e) => setQuestiony(e.target.value)} placeholder='Type your message here...' />
+            <button onClick={askQuestion} className="">Ask</button>
           </div>
         </div>
       </div>
