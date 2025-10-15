@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import './App.css';
 import { URL } from './Constants';
+import Answers from './components/Answers';
 
 const App = () => {
   const [question, setQuestiony] = useState("");
@@ -37,7 +38,10 @@ const App = () => {
       const data = await response.json();
       console.log("Gemini Response: data", data);
 
-      const answer = data?.candidates?.[0]?.content?.parts?.[0]?.text || "No response text";
+      let answer = data?.candidates?.[0]?.content?.parts?.[0]?.text || "No response text";
+      answer = answer.split("* ");
+      answer = answer.map((item) => item.trim());
+
       console.log("Gemini Response:", answer);
       setResult(answer);
     } catch (err) {
@@ -55,7 +59,16 @@ const App = () => {
           <div className='container h-120'>
             <h1 className='text-white text-3xl'>ReactAI Chat</h1>
             <div className='bg-slate-200 h-96 mt-5 p-5 rounded-md overflow-y-scroll'>
-              {result ? <p className='text-left text-black'>{result}</p> : <p className='text-left text-black'>No response yet</p>}
+              {/* {result ? <p className='text-left text-black'>{result}</p> : <p className='text-left text-black'>No response yet</p>} */}
+              <ul>
+                {
+                  result && result.map((item, index) => (
+                    <li key={index}>
+                      <Answers ans={item} index={index} totalResult={result.length} />
+                    </li>
+                  ))
+                }
+              </ul>
             </div>
           </div>
           <div className='bg-orange-600 w-1/2 p-1 pr-5 text-white'>
