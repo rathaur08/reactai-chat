@@ -5,7 +5,7 @@ import Answers from './components/Answers';
 
 const App = () => {
   const [question, setQuestiony] = useState("");
-  const [result, setResult] = useState(undefined);
+  const [result, setResult] = useState([]);
 
   const API_KEY = "AIzaSyC8wcPyp6i_VjkxK59boY3bQzHEoAFI56s";
   const URL = "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent";
@@ -43,7 +43,7 @@ const App = () => {
       answer = answer.map((item) => item.trim());
 
       console.log("Gemini Response:", answer);
-      setResult(answer);
+      setResult([...result, { type: "q", text: question }, { type: "a", text: answer }]);
     } catch (err) {
       console.error("Gemini API error:", err.message);
     }
@@ -59,15 +59,28 @@ const App = () => {
           <div className='container h-120'>
             <h1 className='text-white text-3xl'>ReactAI Chat</h1>
             <div className='bg-slate-200 h-96 mt-5 p-5 rounded-md overflow-y-scroll'>
-              {/* {result ? <p className='text-left text-black'>{result}</p> : <p className='text-left text-black'>No response yet</p>} */}
               <ul>
                 {
+                  result.map((item, index) => (
+                    <div key={index + Math.random()} className={item.type == "q" ? "flex justify-end" : ""}>
+                      {
+                        item.type == "q" ?
+                          <li key={index + Math.random()} className='text-right p-1 border-8 bg-zinc-700 border-zinc-700 rounded-tl-3xl rounded-br-3xl rounded-bl-3xl w-fit ml-auto text-white'
+                          ><Answers ans={item.text} index={index} totalResult={1} type={item.type} /></li>
+                          : item.text.map((ansItem, ansIndex) => (
+                            <li key={ansIndex + Math.random()} className='text-start'><Answers ans={ansItem} index={ansIndex} type={item.type} totalResult={item.length} /></li>
+                          ))
+                      }
+                    </div>
+                  ))
+                }
+                {/* {
                   result && result.map((item, index) => (
-                    <li key={index}>
+                    <li key={index + Math.rendom()}>
                       <Answers ans={item} index={index} totalResult={result.length} />
                     </li>
                   ))
-                }
+                } */}
               </ul>
             </div>
           </div>
