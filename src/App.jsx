@@ -128,7 +128,7 @@ const App = () => {
               : null
           }
 
-          <div ref={scrollToAns} className='container h-110 overflow-scroll' ref={scrollToAns}>
+          <div ref={scrollToAns} className='container h-110 overflow-scroll'>
             <div className='text-zinc-300'>
               <ul>
                 {
