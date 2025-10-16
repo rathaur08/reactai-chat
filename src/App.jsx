@@ -6,6 +6,7 @@ import Answers from './components/Answers';
 const App = () => {
   const [question, setQuestiony] = useState("");
   const [result, setResult] = useState([]);
+  const [resentHistory, setResentHistory] = useState(JSON.parse(localStorage.getItem('history')));
 
   const API_KEY = "AIzaSyC8wcPyp6i_VjkxK59boY3bQzHEoAFI56s";
   const URL = "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent";
@@ -22,6 +23,16 @@ const App = () => {
 
   const askQuestion = async () => {
     try {
+      if (localStorage.getItem('history')) {
+        let history = JSON.parse(localStorage.getItem('history'));
+        history = [question, ...history];
+        localStorage.setItem('history', JSON.stringify(history));
+        setResentHistory(history);
+      } else {
+        localStorage.setItem('history', JSON.stringify([question]));
+        setResentHistory([question]);
+      }
+
       const response = await fetch(URL, {
         method: "POST",
         headers: {
@@ -54,6 +65,13 @@ const App = () => {
       <div className='grid grid-cols-5 h-screen text-center'>
         <div className='col-span-1 bg-zinc-800'>
           <h1 className='text-white text-3xl pt-2'>ReactAI Chat</h1>
+          <ul>
+            {resentHistory && resentHistory.map((item, index) => (
+              <li key={index + Math.random()} className='text-start p-2 border-b border-zinc-600 text-white hover:bg-zinc-700 cursor-pointer'
+                onClick={() => setQuestiony(item)}>{item.length > 20 ? item.slice(0, 20) + "..." : item}</li>
+            ))
+            }
+          </ul>
         </div>
         <div className='col-span-4 p-10'>
           <div className='container h-110'>
