@@ -26,7 +26,12 @@ const App = () => {
       if (question) {
         if (localStorage.getItem('history')) {
           let history = JSON.parse(localStorage.getItem('history'));
+          history = history.slice(0, 19); // keep only latest 20 entries
           history = [question, ...history];
+          history = [...new Set(history)]; // remove duplicates
+          history = history.map(item =>
+            item.charAt(0).toUpperCase() + item.slice(1).trim());
+
           localStorage.setItem('history', JSON.stringify(history));
           setResentHistory(history);
         } else {
