@@ -1,7 +1,7 @@
 import React from 'react'
 import Answers from './Answers'
 
-const QuestionAnswer = ({ item, index, totalResult }) => {
+const QuestionAnswer = ({ item, index }) => {
 
   return (
     <>
