@@ -8,6 +8,17 @@ const RecentSearch = ({ resentHistory, setResentHistory, setSelectedHistory }) =
     setResentHistory([]);
   }
 
+  const clearSelectedHistory = (selectedItem) => {
+    let history = JSON.parse(localStorage.getItem('history'));
+    history = history.filter((item) => {
+      if (item !== selectedItem) {
+        return item;
+      }
+    });
+    setResentHistory(history);
+    localStorage.setItem('history', JSON.stringify(history));
+  }
+
   return (
     <>
       <div className='col-span-1 dark:bg-zinc-800 bg-red-100 pt-3'>
@@ -19,9 +30,14 @@ const RecentSearch = ({ resentHistory, setResentHistory, setSelectedHistory }) =
 
         <ul className='text-left overflow-auto'>
           {resentHistory && resentHistory.map((item, index) => (
-            <li key={index + Math.random()} className='p-3 pl-4 border-bs dark:border-zinc-600 border-red-200 dark:text-white text-zinc-800 dark:hover:bg-zinc-700 hover:bg-red-200 cursor-pointer'
-              onClick={() => setSelectedHistory(item)}>{item.length > 20 ? item.slice(0, 30) + "..." : item}</li>
-            // onClick={() => setQuestiony(item)}>{item.length > 20 ? item.slice(0, 30) + "..." : item}</li>
+            <div className='flex justify-between pr-3 py-1' key={index + Math.random()}>
+              <li className='w-full p-1 pl-4 border-bs dark:border-zinc-600 border-red-200 dark:text-white text-zinc-800 dark:hover:bg-zinc-700 hover:bg-red-200 cursor-pointer'
+                onClick={() => setSelectedHistory(item)}>{item.length > 20 ? item.slice(0, 30) + "..." : item} </li>
+              {/*  onClick={() => setQuestiony(item)}>{item.length > 20 ? item.slice(0, 30) + "..." : item}</li> */}
+              <button onClick={() => clearSelectedHistory(item)} className='cursor-pointer hover:bg-zinc-900 bg-zinc-600'>
+                <svg xmlns="http://www.w3.org/2000/svg" height="20px" viewBox="0 -960 960 960" width="20px" fill="#FFFFFF"><path d="M312-144q-29.7 0-50.85-21.15Q240-186.3 240-216v-480h-48v-72h192v-48h192v48h192v72h-48v479.57Q720-186 698.85-165T648-144H312Zm336-552H312v480h336v-480ZM384-288h72v-336h-72v336Zm120 0h72v-336h-72v336ZM312-696v480-480Z" /></svg>
+              </button>
+            </div>
           ))
           }
         </ul>
